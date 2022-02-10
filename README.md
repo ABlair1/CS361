@@ -1,2 +1,2 @@
-# Food Footprint Clculator
+# Food Footprint Calculator
 
