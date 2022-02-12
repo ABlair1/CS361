@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+import json
 
 views = Blueprint('views', __name__)
 
@@ -8,10 +9,33 @@ def home():
 
 @views.route('/food_list')
 def food_list():
-    return render_template('food_list.html')
+    # TEMPORARY: Remove the following when implementing the request to the API
+    with open('../ghg_data_server/ghg_data.json', 'r') as data_file:
+        data = json.load(data_file)
+    # END TEMPORARY
+
+    # KEEP: Reuse somehow in implementation below???
+    food_item_dictionary = {}
+    for item in data.keys():
+        food_item_dictionary[item] = data[item]['Category']
+    # END KEEP
+
+    #######################################
+    # Logic for:
+    #   Send request to API for all ghg data
+    #       (send: GET request for ghg_data)
+    #       (response from API should return: ghg_data in JSON format)
+    #   Render food list from items listed in ghg_data
+    #       (each should be rendered as a link that routes to '/footprint_calc/<item_name>')
+    #######################################
+    return render_template('food_list.html', food_item_dictionary=food_item_dictionary)
 
 @views.route('/footprint_calc/<item_name>')
 def footprint_calc(item_name):
+    #######################################
+    # Logic for:
+    #   On submit, link to route '/results/<item_name>/<units>/<mass>'
+    #######################################
     return render_template('footprint_calc.html', item_name=item_name)
 
 @views.route('/results/<item_name>/<units>/<mass>')

@@ -2,3 +2,45 @@
 
 {% block title %}Food List{% endblock %}
 {% block heading %}Food List{% endblock %}
+
+{% block content %}
+    <!-- Generate food list from food_item_dictionary -->
+    <!-- Create a table for each category of food item -->
+    <h3>Grains</h3>
+    <ul>
+    {% for item in food_item_dictionary.keys() %}
+        {% if food_item_dictionary[item] == "Grains" %}
+        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h3>Fruits & Vegetables</h3>
+    <ul>
+    {% for item in food_item_dictionary.keys() %}
+        {% if food_item_dictionary[item] == "Fruits & Vegetables" %}
+        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h3>Animal Products</h3>
+    <ul>
+    {% for item in food_item_dictionary.keys() %}
+        {% if food_item_dictionary[item] == "Animal Products" %}
+        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h3>Other</h3>
+    <ul>
+    {% for item in food_item_dictionary.keys() %}
+        {% if food_item_dictionary[item] == "Other" %}
+        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+
+{% endblock %}
