@@ -1,12 +1,14 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 import json
 
 views = Blueprint('views', __name__)
 
+# Route handler for home page view
 @views.route('/')
 def home():
     return render_template('home.html')
 
+# Route handler for food list page view
 @views.route('/food_list')
 def food_list():
     # TEMPORARY: Remove the following when implementing the request to the API
@@ -28,18 +30,26 @@ def food_list():
     #   Render food list from items listed in ghg_data
     #       (each should be rendered as a link that routes to '/footprint_calc/<item_name>')
     #######################################
-    return render_template('food_list.html', food_item_dictionary=food_item_dictionary)
+    return render_template(
+        'food_list.html', 
+        food_item_dictionary=food_item_dictionary,
+        )
 
+# Route handler for footprint calculator page view
 @views.route('/footprint_calc/<item_name>')
 def footprint_calc(item_name):
-    #######################################
-    # Logic for:
-    #   On submit, link to route '/results/<item_name>/<units>/<mass>'
-    #######################################
     return render_template('footprint_calc.html', item_name=item_name)
 
-@views.route('/results/<item_name>/<units>/<mass>')
-def results(item_name, units, mass):
+# Route handler for results page view
+@views.route('/results', methods=['GET'])
+def results():
+    # Get input data from footprint calculator submit (GET request)
+    input_data = {}
+    input_data['item_name'] = request.args.get('item_name')
+    input_data['mass'] = request.args.get('mass')
+    input_data['units'] = request.args.get('units')
+
+    # 
     #######################################
     # Logic for:
     #   Send request to API for all ghg data
@@ -52,8 +62,9 @@ def results(item_name, units, mass):
     #           (maybe use JSON where {"Identifier" : [units, mass, result_units, result_mass]})
     #   Render template with results
     #######################################
-    return render_template('results.html')
+    return render_template('results.html', input_data=input_data)
 
+# Route handler for about page view
 @views.route('/about')
 def about():
     return render_template('about.html')

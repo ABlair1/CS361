@@ -1,4 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}Footprint Calculator{% endblock %}
-{% block heading %}Footprint Calculator{% endblock %}
+{% block heading %}{{ item_name }} Footprint Calculator{% endblock %}
+
+{% block content %}
+    <form action="/results", method="GET">
+        <input type="hidden" name="item_name" value="{{ item_name }}">
+        <input type="number" name="mass">
+        <select name="units">
+            <option value="lbs">lbs</option>
+            <option value="kgs">kgs</option>
+        </select>
+        <p><input type="submit" value="Calculate"></p>
+    </form>
+
+    <a href="/food_list"><button>Back to Food List</button></a>
+{% endblock %}
