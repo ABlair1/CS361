@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block heading %}Food Footprint Calculator{% endblock %}
+{% block content %}
+    <p>
+        Welcome! The Food Footprint Calculator is a tool that can be 
+        used to assess the environmental impact, in terms of greenhouse 
+        gas emissions, of various food items. 
+    </p>
+    <h3>Getting Started</h3>
+    <ol>
+        <li>Select an item from the <a href="/food_list">Food List</a></li>
+        <li>Enter an amount of the item and select measurement units</li>
+        <li>Click on "Calculate" and view results</li>
+    </ol>
+    <h3>Learn More</h3>
+    <p>
+        Head over to the <a href="/about">About</a> page for more 
+        information about the calculator.
+    </p>
+{% endblock %}
