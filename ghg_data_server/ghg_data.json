@@ -107,7 +107,7 @@
         "Retail": "0",
         "Total": "1.54"
     },
-    "Other Pulses (beans)": {
+    "Other Pulses (Beans)": {
         "Product": "Other Pulses (beans)",
         "Category": "Fruits & Vegetables",
         "LUC": "0",
@@ -395,7 +395,7 @@
         "Retail": "0",
         "Total": "18.68"
     },
-    "Bovine Meat (beef herd)": {
+    "Bovine Meat (Beef Herd)": {
         "Product": "Bovine Meat (beef herd)",
         "Category": "Animal Products",
         "LUC": "16.3",
@@ -407,7 +407,7 @@
         "Retail": "0.2",
         "Total": "59.57"
     },
-    "Bovine Meat (dairy herd)": {
+    "Bovine Meat (Dairy Herd)": {
         "Product": "Bovine Meat (dairy herd)",
         "Category": "Animal Products",
         "LUC": "0.9",
@@ -491,7 +491,7 @@
         "Retail": "0",
         "Total": "4.51"
     },
-    "Fish (farmed)": {
+    "Fish (Farmed)": {
         "Product": "Fish (farmed)",
         "Category": "Animal Products",
         "LUC": "0.5",
@@ -503,7 +503,7 @@
         "Retail": "0",
         "Total": "5.18"
     },
-    "Crustaceans (farmed)": {
+    "Crustaceans (Farmed)": {
         "Product": "Crustaceans (farmed)",
         "Category": "Animal Products",
         "LUC": "0.2",
