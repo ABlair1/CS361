@@ -1,6 +1,42 @@
 from flask import Blueprint, render_template, request
 import json
 
+def convert_to_kgs(mass, units):
+    """Function has two parmeters: a number that is a mass quantity 
+    and a string that is a unit of measurement for mass. Returns 
+    the equivaent mass as measured in kilograms."""
+    to_kgs = {
+        'lb' : 0.453592,
+        'oz' : 0.0283495,
+        'mg' : 0.000001,
+        'g' : 0.001,
+        'kg' : 1,
+        'ton (metric)' : 1000,
+        'ton (us)' : 907.185,
+        'ton (imperial)' : 1016.05,
+        'st' : 6.35029,
+    }
+    return mass * to_kgs[units]
+
+def convert_from_kgs(mass, units):
+    """Function has two parmeters: a number that is a mass quantity 
+    mesured in kilograms and a string that is a unit of measurement 
+    for mass. Returns the equivaent mass as measured in the 
+    specified units."""
+    from_kgs = {
+        'lb' : 2.20462,
+        'oz' : 35.274,
+        'mg' : 1000000,
+        'g' : 1000,
+        'kg' : 1,
+        'ton (metric)' : 0.001,
+        'ton (us)' : 0.00110231,
+        'ton (imperial)' : 0.000984207,
+        'st' : 0.157473,
+    }
+    return mass * from_kgs[units]
+
+
 views = Blueprint('views', __name__)
 
 # Route handler for home page view
@@ -44,12 +80,32 @@ def footprint_calc(item_name):
 @views.route('/results', methods=['GET'])
 def results():
     # Get input data from footprint calculator submit (GET request)
-    input_data = {}
-    input_data['item_name'] = request.args.get('item_name')
-    input_data['mass'] = request.args.get('mass')
-    input_data['units'] = request.args.get('units')
+    item_name = request.args.get('item_name')
+    mass = float(request.args.get('mass'))
+    units = request.args.get('units')
 
-    # 
+    # TEMPORARY: Remove the following when implementing the request to the API
+    with open('../ghg_data_server/ghg_data.json', 'r') as data_file:
+        data = json.load(data_file)
+    # END TEMPORARY
+
+    # Convert input mass to kgs
+    mass_kgs = convert_to_kgs(mass, units)
+
+    # Calculate emissions for food item
+    emissions_kg = float(data[item_name]['Total']) * mass_kgs
+
+    # Convert emissions in kg to input units
+    emissions = round(convert_from_kgs(emissions_kg, units), 2)
+    
+    # Use emissions result to calculate alternative food amounts
+    alternatives = {}
+    for item in data.keys():
+        item_kgs = emissions_kg / float(data[item]['Total'])
+        alternatives[item] = {}
+        alternatives[item]['Amount'] = round(convert_from_kgs(item_kgs, units), 2)
+        alternatives[item]['Category'] = data[item]['Category']
+
     #######################################
     # Logic for:
     #   Send request to API for all ghg data
@@ -62,7 +118,14 @@ def results():
     #           (maybe use JSON where {"Identifier" : [units, mass, result_units, result_mass]})
     #   Render template with results
     #######################################
-    return render_template('results.html', input_data=input_data)
+    return render_template(
+        'results.html', 
+        item_name=item_name, 
+        mass=mass, 
+        units=units, 
+        emissions=emissions, 
+        alternatives=alternatives
+    )
 
 # Route handler for about page view
 @views.route('/about')
