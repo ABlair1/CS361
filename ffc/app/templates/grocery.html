@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Grocery Stores{% endblock %}
+{% block heading %}Grocery Stores{% endblock %}
+{% block content %}
+    <p>
+        Enter your 5-digit zip code below to find grocery stores in your area.
+    </p>
+    <form action="">
+        <input type="number" name="zip">
+        <input type="submit" value="Search">
+    </form>
+    <p>
+        <img src="../static/temp_grocery_map.jpg" alt="Grocery store map (temporary image)">
+    </p>
+{% endblock %}
+

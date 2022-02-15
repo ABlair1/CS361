@@ -4,6 +4,7 @@
 {% block heading %}Results{% endblock %}
 
 {% block content %}
+    <!-- Display calculator results from user input -->
     <h3>{{ emissions }} {{ units }} of CO2</h3>
     <p>
         {{ mass }} {{ units }} of {{ item_name }} will produce 
@@ -11,11 +12,14 @@
         {{ units }} of CO2.
     </p>
 
+    <!-- Additional navigation buttons for actions following results -->
     <a href="/footprint_calc/{{ item_name }}">
         <button>Try Again</button>
     </a>
     <a href="/food_list"><button>Back to Food List</button></a>
+    <a href="/grocery"><button>Find Grocery Stores</button></a>
 
+    <!-- Display food quantities for an equivlent amount of emissions produced -->
     <h2>Amounts of other foods that could be had for the same emissions:</h2>
     <table>
         <thead>

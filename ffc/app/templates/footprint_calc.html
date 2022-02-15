@@ -4,6 +4,8 @@
 {% block heading %}{{ item_name }} Footprint Calculator{% endblock %}
 
 {% block content %}
+    <!-- Form for user to input food amount and select units 
+        (calculator inputs) -->
     <form action="/results", method="GET">
         <input type="hidden" name="item_name" value="{{ item_name }}">
         <input type="number" name="mass">
@@ -21,5 +23,6 @@
         <p><input type="submit" value="Calculate"></p>
     </form>
 
+    <!-- Additional navigation button for optional next action -->
     <a href="/food_list"><button>Back to Food List</button></a>
 {% endblock %}

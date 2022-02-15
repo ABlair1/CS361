@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 import json
 
+# Extract following functions to unit converter API
 def convert_to_kgs(mass, units):
     """Function has two parmeters: a number that is a mass quantity 
     and a string that is a unit of measurement for mass. Returns 
@@ -126,6 +127,11 @@ def results():
         emissions=emissions, 
         alternatives=alternatives
     )
+
+# Route handler for grocery page view
+@views.route('/grocery')
+def grocery():
+    return render_template('grocery.html')
 
 # Route handler for about page view
 @views.route('/about')

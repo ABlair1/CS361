@@ -7,12 +7,18 @@
     <title>FFC: {% block title %}{% endblock %}</title>
 </head>
 <body>
+    <!-- Navigation bar to display with all page views-->
     <ul id="nav_links">
         <li><a href="/">Home</a></li>
         <li><a href="/food_list">Food List</a></li>
+        <li><a href="/grocery">Grocery Stores</a></li>
         <li><a href="/about">About</a></li>
     </ul>
+
+    <!-- Heading to display at the top of ech page view -->
     <h1>{% block heading %}Food Footprint Calculator{% endblock %}</h1>
+
+    <!-- Content which will be displayed by each page view -->
     <div>{% block content %}{% endblock %}</div>
 </body>
 </html>
