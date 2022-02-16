@@ -1,5 +1,10 @@
 from flask import Blueprint, render_template, request
 import json
+import requests
+
+views = Blueprint('views', __name__)
+
+ghg_data_api = 'http://127.0.0.1:5000/'
 
 # Extract following functions to unit converter API
 def convert_to_kgs(mass, units):
@@ -38,44 +43,37 @@ def convert_from_kgs(mass, units):
     return mass * from_kgs[units]
 
 
-views = Blueprint('views', __name__)
+
 
 # Route handler for home page view
 @views.route('/')
 def home():
     return render_template('home.html')
 
+
 # Route handler for food list page view
 @views.route('/food_list')
 def food_list():
-    # TEMPORARY: Remove the following when implementing the request to the API
-    with open('../ghg_data_server/ghg_data.json', 'r') as data_file:
-        data = json.load(data_file)
-    # END TEMPORARY
+    # Request ghg data from API
+    response = requests.get(ghg_data_api)
+    data = json.loads(response.text)
 
-    # KEEP: Reuse somehow in implementation below???
+    # Extract food item names and categories from ghg data
     food_item_dictionary = {}
     for item in data.keys():
         food_item_dictionary[item] = data[item]['Category']
-    # END KEEP
 
-    #######################################
-    # Logic for:
-    #   Send request to API for all ghg data
-    #       (send: GET request for ghg_data)
-    #       (response from API should return: ghg_data in JSON format)
-    #   Render food list from items listed in ghg_data
-    #       (each should be rendered as a link that routes to '/footprint_calc/<item_name>')
-    #######################################
     return render_template(
         'food_list.html', 
         food_item_dictionary=food_item_dictionary,
         )
 
+
 # Route handler for footprint calculator page view
 @views.route('/footprint_calc/<item_name>')
 def footprint_calc(item_name):
     return render_template('footprint_calc.html', item_name=item_name)
+
 
 # Route handler for results page view
 @views.route('/results', methods=['GET'])
@@ -85,10 +83,9 @@ def results():
     mass = float(request.args.get('mass'))
     units = request.args.get('units')
 
-    # TEMPORARY: Remove the following when implementing the request to the API
-    with open('../ghg_data_server/ghg_data.json', 'r') as data_file:
-        data = json.load(data_file)
-    # END TEMPORARY
+    # Request ghg data from API
+    response = requests.get(ghg_data_api)
+    data = json.loads(response.text)
 
     # Convert input mass to kgs
     mass_kgs = convert_to_kgs(mass, units)
@@ -128,10 +125,12 @@ def results():
         alternatives=alternatives
     )
 
+
 # Route handler for grocery page view
 @views.route('/grocery')
 def grocery():
     return render_template('grocery.html')
+
 
 # Route handler for about page view
 @views.route('/about')
