@@ -4,7 +4,8 @@ import requests
 
 views = Blueprint('views', __name__)
 
-ghg_data_api = 'http://127.0.0.1:5000/'
+ghg_data_api = 'http://127.0.0.1:6000/'
+mass_converter_api = 'http://127.0.0.1:7000/'
 
 # Extract following functions to unit converter API
 def convert_to_kgs(mass, units):
@@ -80,7 +81,7 @@ def footprint_calc(item_name):
 def results():
     # Get input data from footprint calculator submit (GET request)
     item_name = request.args.get('item_name')
-    mass = float(request.args.get('mass'))
+    mass = request.args.get('mass')
     units = request.args.get('units')
 
     # Request ghg data from API
@@ -88,21 +89,34 @@ def results():
     data = json.loads(response.text)
 
     # Convert input mass to kgs
-    mass_kgs = convert_to_kgs(mass, units)
+    # Request mass unit conversion from API
+    req_params = mass +'/' + units + '/kg/'
+    mc_response = requests.get(mass_converter_api + req_params)
+    mass_kgs = float(json.loads(mc_response.text)['result_mass'])
 
     # Calculate emissions for food item
     emissions_kg = float(data[item_name]['Total']) * mass_kgs
 
     # Convert emissions in kg to input units
-    emissions = round(convert_from_kgs(emissions_kg, units), 2)
+    req_params = str(emissions_kg) +'/kg/' + units + '/'
+    mc_response = requests.get(mass_converter_api + req_params)
+    emissions = float(json.loads(mc_response.text)['result_mass'])
+
+    emissions = round(emissions, 2)
     
     # Use emissions result to calculate alternative food amounts
     alternatives = {}
     for item in data.keys():
         item_kgs = emissions_kg / float(data[item]['Total'])
+
+        req_params = str(item_kgs) +'/kg/' + units + '/'
+        mc_response = requests.get(mass_converter_api + req_params)
+        item_emissions = float(json.loads(mc_response.text)['result_mass'])
+
         alternatives[item] = {}
-        alternatives[item]['Amount'] = round(convert_from_kgs(item_kgs, units), 2)
+        alternatives[item]['Amount'] = round(item_emissions, 2)
         alternatives[item]['Category'] = data[item]['Category']
+
 
     #######################################
     # Logic for:

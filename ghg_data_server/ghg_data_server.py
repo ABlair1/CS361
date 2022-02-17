@@ -22,4 +22,4 @@ class GhgData(Resource):
 api.add_resource(GhgData, '/')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=6000, debug=True)
