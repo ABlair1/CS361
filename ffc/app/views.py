@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, redirect, request
 import json
 import requests
 
@@ -144,6 +144,19 @@ def results():
 @views.route('/grocery')
 def grocery():
     return render_template('grocery.html')
+
+
+# Route handler for grocery page view
+@views.route('/grocery_search')
+def grocery_search():
+    # Get input data from grocery form submit
+    city = request.args.get('city')
+    state = request.args.get('state')
+
+    # Redirect to search results using map API
+    api_url = 'https://maps-api-microservice.herokuapp.com/grocery?'
+    map_url = api_url + 'city=' + city + '&state=' + state
+    return redirect(map_url)
 
 
 # Route handler for about page view
