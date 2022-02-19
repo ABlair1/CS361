@@ -4,46 +4,8 @@ import requests
 
 views = Blueprint('views', __name__)
 
-ghg_data_api = 'http://127.0.0.1:6000/'
-mass_converter_api = 'http://127.0.0.1:7000/'
-
-# Extract following functions to unit converter API
-def convert_to_kgs(mass, units):
-    """Function has two parmeters: a number that is a mass quantity 
-    and a string that is a unit of measurement for mass. Returns 
-    the equivaent mass as measured in kilograms."""
-    to_kgs = {
-        'lb' : 0.453592,
-        'oz' : 0.0283495,
-        'mg' : 0.000001,
-        'g' : 0.001,
-        'kg' : 1,
-        'ton (metric)' : 1000,
-        'ton (us)' : 907.185,
-        'ton (imperial)' : 1016.05,
-        'st' : 6.35029,
-    }
-    return mass * to_kgs[units]
-
-def convert_from_kgs(mass, units):
-    """Function has two parmeters: a number that is a mass quantity 
-    mesured in kilograms and a string that is a unit of measurement 
-    for mass. Returns the equivaent mass as measured in the 
-    specified units."""
-    from_kgs = {
-        'lb' : 2.20462,
-        'oz' : 35.274,
-        'mg' : 1000000,
-        'g' : 1000,
-        'kg' : 1,
-        'ton (metric)' : 0.001,
-        'ton (us)' : 0.00110231,
-        'ton (imperial)' : 0.000984207,
-        'st' : 0.157473,
-    }
-    return mass * from_kgs[units]
-
-
+ghg_data_api = 'https://cs361-ghg-data.herokuapp.com/'
+mass_converter_api = 'https://cs361-mass-unit-converter.herokuapp.com/'
 
 
 # Route handler for home page view
@@ -117,19 +79,6 @@ def results():
         alternatives[item]['Amount'] = round(item_emissions, 2)
         alternatives[item]['Category'] = data[item]['Category']
 
-
-    #######################################
-    # Logic for:
-    #   Send request to API for all ghg data
-    #       (send: GET request for ghg_data)
-    #       (response from API should return: ghg_data in JSON format)
-    #   Send request to mass_converter API
-    #       (send for all items in ghg_data: units, mass, result_units)
-    #           (maybe use JSON where {"Identifier" : [units, mass, result_units]})
-    #       (response from API should return: units, mass, result_units, result_mass)
-    #           (maybe use JSON where {"Identifier" : [units, mass, result_units, result_mass]})
-    #   Render template with results
-    #######################################
     return render_template(
         'results.html', 
         item_name=item_name, 
