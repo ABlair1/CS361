@@ -6,16 +6,24 @@ views = Blueprint('views', __name__)
 
 ghg_data_api = 'https://cs361-ghg-data.herokuapp.com/'
 mass_converter_api = 'https://cs361-mass-unit-converter.herokuapp.com/'
-
+routes = {
+    'home' : '/',
+    'foods' : '/food_list',
+    'calculator' : '/footprint_calc/<item_name>',
+    'results' : '/results',
+    'grocery' : '/grocery',
+    'map' : '/grocery_search',
+    'about' : '/about',
+}
 
 # Route handler for home page view
-@views.route('/')
+@views.route(routes['home'])
 def home():
     return render_template('home.html')
 
 
 # Route handler for food list page view
-@views.route('/food_list')
+@views.route(routes['foods'])
 def food_list():
     # Request ghg data from API
     response = requests.get(ghg_data_api)
@@ -33,13 +41,13 @@ def food_list():
 
 
 # Route handler for footprint calculator page view
-@views.route('/footprint_calc/<item_name>')
+@views.route(routes['calculator'])
 def footprint_calc(item_name):
     return render_template('footprint_calc.html', item_name=item_name)
 
 
 # Route handler for results page view
-@views.route('/results', methods=['GET'])
+@views.route(routes['results'], methods=['GET'])
 def results():
     # Get input data from footprint calculator submit (GET request)
     item_name = request.args.get('item_name')
@@ -90,13 +98,13 @@ def results():
 
 
 # Route handler for grocery page view
-@views.route('/grocery')
+@views.route(routes['grocery'])
 def grocery():
     return render_template('grocery.html')
 
 
 # Route handler for grocery page view
-@views.route('/grocery_search')
+@views.route(routes['map'])
 def grocery_search():
     # Get input data from grocery form submit
     city = request.args.get('city')
@@ -109,6 +117,6 @@ def grocery_search():
 
 
 # Route handler for about page view
-@views.route('/about')
+@views.route(routes['about'])
 def about():
     return render_template('about.html')
