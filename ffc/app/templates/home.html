@@ -4,25 +4,60 @@
 {% block heading %}Food Footprint Calculator{% endblock %}
 
 {% block content %}
-    <p>
+<div class="container mx-auto">
+    <p class="text-center pb-3">
         Welcome! The Food Footprint Calculator is a tool that can be 
         used to assess the environmental impact, in terms of greenhouse 
         gas emissions, of various food items. 
     </p>
 
-    <h3>Getting Started</h3>
-    <ol>
-        <li>Select an item from the <a href="/food_list">Food List</a></li>
-        <li>Enter an amount of the item and select measurement units</li>
-        <li>Click on "Calculate" and view results</li>
-    </ol>
-    <a href="/food_list"><button>Pick a food!</button></a>
+    <div class="border border-secondary rounded-pill my-3 py-2">
+        <h3 class="text-center pt-2">Getting Started</h3>
+        <div class="container-fluid text-center rounded-pill">
+            <ol class="list-group list-group-numbered list-group-flush container-fluid text-center rounded-pill">
+                <li class="list-group-item">Select an item from the <a href="/food_list" class="link-info">Food List</a></li>
+                <li class="list-group-item">Enter an amount of the item and select measurement units</li>
+                <li class="list-group-item">Click on "Calculate" and view results</li>
+            </ol>
+        </div>
+        <div class="text-center py-3">
+            <a href="/food_list">
+                <button class="btn btn-outline-dark" style="background-color:lightseagreen">
+                    Pick a food!
+                </button>
+            </a>
+        </div>
+    </div>
 
-    <h3>Learn More</h3>
-    <p>
-        Head over to the <a href="/about">About</a> page for more 
-        information about the calculator.
-    </p>
-    <a href="/about"><button>Get More Info!</button></a>
+    <div class="my-3 py-2">
+        <h3 class="text-center pt-2">Eat Sustainably</h3>        
+        <p class="text-center">
+            Be kind to the Earth and make sustainable food choices. Check out <a href="/grocery" class="link-info">Grocery Stores</a> 
+            to search for stores in your area.
+        </p>
+        <div class="text-center">
+            <a href="/grocery">
+                <button class="btn btn-outline-dark" style="background-color:lightseagreen">
+                    Find Groceries!
+                </button>
+            </a>
+        </div>
+    </div>
 
+    <div class="my-3 py-2">
+        <h3 class="text-center pt-2">Learn More</h3>
+        <p class="text-center">
+            Head over to the <a href="/about" class="link-info">About</a> page for more 
+            information about the calculator.
+        </p>
+        <div class="text-center pb-5">
+            <a href="/about">
+                <button class="btn btn-outline-dark" style="background-color:lightseagreen">
+                    Get More Info!
+                </button>
+            </a>
+        </div>        
+    </div>
+
+</div>
 {% endblock %}

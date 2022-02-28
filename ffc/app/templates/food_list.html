@@ -4,43 +4,85 @@
 {% block heading %}Food List{% endblock %}
 
 {% block content %}
+<div class="container mx-auto">
     <!-- Generate food list from food_item_dictionary -->
     <!-- Create a table for each category of food item -->
-    <h3>Grains</h3>
-    <ul>
-    {% for item in food_item_dictionary.keys() %}
-        {% if food_item_dictionary[item] == "Grains" %}
-        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+    <p class="text-center pb-2">
+        Select a food item to calculate greenhouse gas emissions.
+    </p>
+    <div class="row pb-5">
+        <div class="col">
+            <div class="border rounded pt-3 my-3">
+                <h3 class="text-center">Grains</h3>
+                <ul>
+                {% for item in food_item_dictionary.keys() %}
+                    {% if food_item_dictionary[item] == "Grains" %}
+                    <li>
+                        <a href="/footprint_calc/{{ item }}">
+                            <button class="btn">
+                                {{ item }}
+                            </button>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
 
-    <h3>Fruits & Vegetables</h3>
-    <ul>
-    {% for item in food_item_dictionary.keys() %}
-        {% if food_item_dictionary[item] == "Fruits & Vegetables" %}
-        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+            <div class="border rounded pt-3 my-3">
+                <h3 class="text-center">Fruits & Vegetables</h3>
+                <ul>
+                {% for item in food_item_dictionary.keys() %}
+                    {% if food_item_dictionary[item] == "Fruits & Vegetables" %}
+                    <li>
+                        <a href="/footprint_calc/{{ item }}">
+                            <button class="btn">
+                                {{ item }}
+                            </button>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
 
-    <h3>Animal Products</h3>
-    <ul>
-    {% for item in food_item_dictionary.keys() %}
-        {% if food_item_dictionary[item] == "Animal Products" %}
-        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+        <div class="col">
+            <div class="border rounded pt-3 my-3">
+                <h3 class="text-center">Animal Products</h3>
+                <ul>
+                {% for item in food_item_dictionary.keys() %}
+                    {% if food_item_dictionary[item] == "Animal Products" %}
+                    <li>
+                        <a href="/footprint_calc/{{ item }}">
+                            <button class="btn">
+                                {{ item }}
+                            </button>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
 
-    <h3>Other</h3>
-    <ul>
-    {% for item in food_item_dictionary.keys() %}
-        {% if food_item_dictionary[item] == "Other" %}
-        <li><a href="/footprint_calc/{{ item }}">{{ item }}</a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+            <div class="border rounded pt-3 my-3">
+                <h3 class="text-center">Other</h3>
+                <ul>
+                {% for item in food_item_dictionary.keys() %}
+                    {% if food_item_dictionary[item] == "Other" %}
+                    <li>
+                        <a href="/footprint_calc/{{ item }}">
+                            <button class="btn">
+                                {{ item }}
+                            </button>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-
+</div>
 {% endblock %}

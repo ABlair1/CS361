@@ -3,14 +3,28 @@
 {% block title %}Grocery Stores{% endblock %}
 {% block heading %}Grocery Stores{% endblock %}
 {% block content %}
-    <p>
+<div class="container mx-auto">
+    <p class="text-center pb-3">
         Now that you are thinking about food choices, you may want to visit a grocery store near you. 
-        Enter your city and state below to find grocery stores in your area.
     </p>
-    <form action="/grocery_search" method="GET" target="_blank">
-        <input type="text" name="city">
-        <input type="text" name="state">
-        <input type="submit" value="Search">
-    </form>
+
+    <div class="border border-secondary rounded-pill my-3 py-2">
+        <p class="text-center pt-3">
+            Enter your city and state below to find grocery stores in your area.
+        </p>
+        <form action="/grocery_search" method="GET" target="_blank" class="text-center">
+            <div class="pb-3">
+                <input type="text" name="city" placeholder="City" class="form-control w-50 mx-auto">
+            </div>
+            <div class="pb-3">
+                <input type="text" name="state" placeholder="State" class="form-control w-50 mx-auto">
+            </div>
+            <div class="pb-3">
+                <input type="submit" value="Search" class="btn btn-outline-dark" style="background-color:lightseagreen">
+            </div>
+        </form>
+    </div>
+
+</div>
 {% endblock %}
 
