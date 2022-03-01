@@ -4,25 +4,38 @@
 {% block heading %}{{ item_name }} Footprint Calculator{% endblock %}
 
 {% block content %}
+<div class="container mx-auto">
     <!-- Form for user to input food amount and select units 
         (calculator inputs) -->
-    <form action="/results", method="GET">
+    <form action="/results", method="GET" class="text-center my-3 py-2">
         <input type="hidden" name="item_name" value="{{ item_name }}">
-        <input type="number" name="mass">
-        <select name="units">
-            <option value="lb">Pounds</option>
-            <option value="oz">Ounces</option>
-            <option value="mg">Miligrams</option>
-            <option value="g">Grams</option>
-            <option value="kg">Kilograms</option>
-            <option value="ton (metric)">Tons (Metric)</option>
-            <option value="ton (us)">Tons (US)</option>
-            <option value="ton (imperial)">Tons (Imperial)</option>
-            <option value="st">Stone</option>
-        </select>
-        <p><input type="submit" value="Calculate"></p>
+        <div class="pb-3">
+            <input type="number" name="mass" required="required" placeholder="Amount" class="form-control w-50 mx-auto">
+        </div>
+        <div class="pb-3">
+            <select name="units" class="form-select w-50 mx-auto">
+                <option value="lb">Pounds</option>
+                <option value="oz">Ounces</option>
+                <option value="mg">Miligrams</option>
+                <option value="g">Grams</option>
+                <option value="kg">Kilograms</option>
+                <option value="ton (metric)">Tons (Metric)</option>
+                <option value="ton (us)">Tons (US)</option>
+                <option value="ton (imperial)">Tons (Imperial)</option>
+                <option value="st">Stone</option>
+            </select>
+        </div>
+        <p><input type="submit" value="Calculate" class="btn btn-outline-dark" style="background-color:lightseagreen"></p>
     </form>
 
     <!-- Additional navigation button for optional next action -->
-    <a href="/food_list"><button>Back to Food List</button></a>
+    <div class="text-center pb-5">
+        <a href="/food_list">
+            <button class="btn btn-outline-dark text" style="background-color:lightseagreen">
+                Back to Food List
+            </button>
+        </a>
+    </div>
+
+</div>
 {% endblock %}

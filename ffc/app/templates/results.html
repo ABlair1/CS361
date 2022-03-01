@@ -4,85 +4,108 @@
 {% block heading %}Results{% endblock %}
 
 {% block content %}
+<div class="container mx-auto">
     <!-- Display calculator results from user input -->
-    <h3>{{ emissions }} {{ units }} of CO2</h3>
-    <p>
-        {{ mass }} {{ units }} of {{ item_name }} will produce 
-        greenhouse gas emissions equivalent to {{ emissions }} 
-        {{ units }} of CO2.
-    </p>
+    <div class="border border-secondary rounded-pill my-3 py-2">
+        <h2 class="text-center pt-2">{{ emissions }} {{ units }} of CO<sub>2</sub></h3>
+        <p class="text-center pt-3">
+            <strong>{{ mass }} {{ units }} of {{ item_name }}</strong> will produce 
+            greenhouse gas emissions equivalent to <strong>{{ emissions }} 
+            {{ units }} of CO<sub>2</sub></strong>.
+        </p>
+    </div>
 
     <!-- Additional navigation buttons for actions following results -->
-    <a href="/footprint_calc/{{ item_name }}">
-        <button>Try Again</button>
-    </a>
-    <a href="/food_list"><button>Back to Food List</button></a>
-    <a href="/grocery"><button>Find Grocery Stores</button></a>
+    <div class="d-grid gap-2 d-md-block text-center mb-3">
+        <a href="/footprint_calc/{{ item_name }}" style="text-decoration: none;">
+            <button class="btn btn-outline-dark mx-1 my-2" style="background-color:lightseagreen">
+                Try Again
+            </button>
+        </a>
+        <a href="/food_list" style="text-decoration: none;">
+            <button class="btn btn-outline-dark mx-1 my-2" style="background-color:lightseagreen">
+                Back to Food List
+            </button>
+        </a>
+        <a href="/grocery" style="text-decoration: none;">
+            <button class="btn btn-outline-dark mx-1 my-2" style="background-color:lightseagreen">
+                Find Grocery Stores
+            </button>
+        </a>
+    </div>
 
     <!-- Display food quantities for an equivlent amount of emissions produced -->
-    <h2>Amounts of other foods that could be had for the same emissions:</h2>
-    <table>
-        <thead>
-            <tr><th colspan="2">Grains</th></tr>
-        </thead>
-        <tbody>
-            {% for item in alternatives.keys() %}
-                {% if alternatives[item]["Category"] == "Grains" %}
-                    <tr>
-                        <td>{{ item }}</td>
-                        <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+    <h3 class="text-center py-3">
+        Amounts of other foods that could be had for the <em>same emissions</em> as {{ mass }} {{ units }} of {{ item_name }}:
+    </h3>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr><th colspan="2" class="text-center">Grains</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in alternatives.keys() %}
+                        {% if alternatives[item]["Category"] == "Grains" %}
+                            <tr>
+                                <td>{{ item }}</td>
+                                <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    <table>
-        <thead>
-            <tr><th colspan="2">Fruits & Vegetables</th></tr>
-        </thead>
-        <tbody>
-            {% for item in alternatives.keys() %}
-                {% if alternatives[item]["Category"] == "Fruits & Vegetables" %}
-                    <tr>
-                        <td>{{ item }}</td>
-                        <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+            <table class="table mb-5">
+                <thead>
+                    <tr><th colspan="2" class="text-center">Fruits & Vegetables</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in alternatives.keys() %}
+                        {% if alternatives[item]["Category"] == "Fruits & Vegetables" %}
+                            <tr>
+                                <td>{{ item }}</td>
+                                <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <table>
-        <thead>
-            <tr><th colspan="2">Animal Products</th></tr>
-        </thead>
-        <tbody>
-            {% for item in alternatives.keys() %}
-                {% if alternatives[item]["Category"] == "Animal Products" %}
-                    <tr>
-                        <td>{{ item }}</td>
-                        <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr><th colspan="2" class="text-center">Animal Products</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in alternatives.keys() %}
+                        {% if alternatives[item]["Category"] == "Animal Products" %}
+                            <tr>
+                                <td>{{ item }}</td>
+                                <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    <table>
-        <thead>
-            <tr><th colspan="2">Other</th></tr>
-        </thead>
-        <tbody>
-            {% for item in alternatives.keys() %}
-                {% if alternatives[item]["Category"] == "Other" %}
-                    <tr>
-                        <td>{{ item }}</td>
-                        <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+            <table class="table mb-5">
+                <thead>
+                    <tr><th colspan="2" class="text-center">Other</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in alternatives.keys() %}
+                        {% if alternatives[item]["Category"] == "Other" %}
+                            <tr>
+                                <td>{{ item }}</td>
+                                <td>{{ alternatives[item]['Amount'] }} {{ units }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 {% endblock %}
