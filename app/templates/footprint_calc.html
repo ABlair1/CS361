@@ -10,7 +10,8 @@
     <form action="/results", method="GET" class="text-center my-3 py-2">
         <input type="hidden" name="item_name" value="{{ item_name }}">
         <div class="pb-3">
-            <input type="number" name="mass" required="required" placeholder="Amount" class="form-control w-50 mx-auto">
+            <input type="number" name="mass" required="required" 
+                placeholder="Amount" class="form-control w-50 mx-auto">
         </div>
         <div class="pb-3">
             <select name="units" class="form-select w-50 mx-auto">
@@ -25,7 +26,10 @@
                 <option value="st">Stone</option>
             </select>
         </div>
-        <p><input type="submit" value="Calculate" class="btn btn-outline-dark" style="background-color:lightseagreen"></p>
+        <p>
+            <input type="submit" value="Calculate" class="btn btn-outline-dark" 
+                style="background-color:lightseagreen">
+        </p>
     </form>
 
     <!-- Additional navigation button for optional next action -->

@@ -16,16 +16,49 @@ routes = {
     'about' : '/about',
 }
 
-# Route handler for home page view
+def calcFoodAlternatives(data, emissions_kg, units):
+    """Uses emissions result to calculate alternative food amounts"""
+    alternatives = {}
+    for item in data.keys():
+        item_kgs = emissions_kg / float(data[item]['Total'])
+
+        req_params = str(item_kgs) +'/kg/' + units + '/'
+        mc_response = requests.get(mass_converter_api + req_params)
+        item_emissions = float(json.loads(mc_response.text)['result_mass'])
+
+        alternatives[item] = {}
+        alternatives[item]['Amount'] = round(item_emissions, 2)
+        alternatives[item]['Category'] = data[item]['Category']
+    return alternatives
+
+def calcEmissions(data, item_name, mass_kgs):
+    """Calculates emissions for food item"""
+    return float(data[item_name]['Total']) * mass_kgs
+
+def inputUnitsToKgs(mass, units):
+    """Converts input mass to kgs"""
+    req_params = mass +'/' + units + '/kg/'
+    mc_response = requests.get(mass_converter_api + req_params)
+    return float(json.loads(mc_response.text)['result_mass'])
+
+def kgsToInputUnits(emissions_kg, units):
+    """Converts emissions in kg to input units and rounds result"""
+    req_params = str(emissions_kg) +'/kg/' + units + '/'
+    mc_response = requests.get(mass_converter_api + req_params)
+    emissions = float(json.loads(mc_response.text)['result_mass'])
+    return round(emissions, 2)
+
+#######################################################################
+# Route Handlers
+#######################################################################
+
 @views.route(routes['home'])
 def home():
     return render_template('home.html')
 
 
-# Route handler for food list page view
 @views.route(routes['foods'])
 def food_list():
-    # Request ghg data from API
     response = requests.get(ghg_data_api)
     data = json.loads(response.text)
 
@@ -40,52 +73,24 @@ def food_list():
         )
 
 
-# Route handler for footprint calculator page view
 @views.route(routes['calculator'])
 def footprint_calc(item_name):
     return render_template('footprint_calc.html', item_name=item_name)
 
 
-# Route handler for results page view
 @views.route(routes['results'], methods=['GET'])
 def results():
-    # Get input data from footprint calculator submit (GET request)
     item_name = request.args.get('item_name')
     mass = request.args.get('mass')
     units = request.args.get('units')
 
-    # Request ghg data from API
     response = requests.get(ghg_data_api)
     data = json.loads(response.text)
 
-    # Convert input mass to kgs
-    # Request mass unit conversion from API
-    req_params = mass +'/' + units + '/kg/'
-    mc_response = requests.get(mass_converter_api + req_params)
-    mass_kgs = float(json.loads(mc_response.text)['result_mass'])
-
-    # Calculate emissions for food item
-    emissions_kg = float(data[item_name]['Total']) * mass_kgs
-
-    # Convert emissions in kg to input units
-    req_params = str(emissions_kg) +'/kg/' + units + '/'
-    mc_response = requests.get(mass_converter_api + req_params)
-    emissions = float(json.loads(mc_response.text)['result_mass'])
-
-    emissions = round(emissions, 2)
-    
-    # Use emissions result to calculate alternative food amounts
-    alternatives = {}
-    for item in data.keys():
-        item_kgs = emissions_kg / float(data[item]['Total'])
-
-        req_params = str(item_kgs) +'/kg/' + units + '/'
-        mc_response = requests.get(mass_converter_api + req_params)
-        item_emissions = float(json.loads(mc_response.text)['result_mass'])
-
-        alternatives[item] = {}
-        alternatives[item]['Amount'] = round(item_emissions, 2)
-        alternatives[item]['Category'] = data[item]['Category']
+    mass_kgs = inputUnitsToKgs(mass, units)
+    emissions_kg = calcEmissions(data, item_name, mass_kgs)
+    emissions = kgsToInputUnits(emissions_kg, units)
+    alternatives = calcFoodAlternatives(data, emissions_kg, units)
 
     return render_template(
         'results.html', 
@@ -97,26 +102,21 @@ def results():
     )
 
 
-# Route handler for grocery page view
 @views.route(routes['grocery'])
 def grocery():
     return render_template('grocery.html')
 
 
-# Route handler for grocery page view
 @views.route(routes['map'])
 def grocery_search():
-    # Get input data from grocery form submit
     city = request.args.get('city')
     state = request.args.get('state')
 
-    # Redirect to search results using map API
     api_url = 'https://maps-api-microservice.herokuapp.com/grocery?'
     map_url = api_url + 'city=' + city + '&state=' + state
     return redirect(map_url)
 
 
-# Route handler for about page view
 @views.route(routes['about'])
 def about():
     return render_template('about.html')
