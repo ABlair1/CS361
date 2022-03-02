@@ -4,13 +4,14 @@
 {% block heading %}Grocery Stores{% endblock %}
 {% block content %}
 <div class="container mx-auto">
+
     <p class="text-center pb-3">
         Now that you are thinking about food choices, you may want to 
         visit a grocery store near you. 
     </p>
 
     <div class="border border-secondary rounded-pill my-3 py-2">
-        <p class="text-center pt-3">
+        <p class="container text-center pt-3 px-5">
             Enter your city and state below to find grocery stores in your area.
         </p>
         <form action="/grocery_search" method="GET" target="_blank" class="text-center">
@@ -27,6 +28,14 @@
                     style="background-color:lightseagreen">
             </div>
         </form>
+    </div>
+
+    <div class="d-grid gap-2 d-md-block text-center mb-5">
+        <a href="/food_list" style="text-decoration: none;">
+            <button class="btn btn-outline-dark mx-1 my-2" style="background-color:lightseagreen">
+                Back to Food List
+            </button>
+        </a>
     </div>
 
 </div>
